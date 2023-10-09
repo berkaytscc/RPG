@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using NSubstitute;
 using NUnit.Framework;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Playables;
@@ -109,6 +110,27 @@ namespace a_player
 
             float turnAmount = Helpers.CalculateTurn(originalRotation, player.transform.rotation);
             Assert.Greater(turnAmount, 0);
+        }
+    }
+
+    public class moving_into_an_item
+    {
+        [UnityTest]
+        public IEnumerator picks_up_and_equips_item()
+        {
+            yield return Helpers.LoadMovementTestsScene();
+
+            var player = Helpers.GetPlayer();
+            
+            player.PlayerInput.Vertical.Returns(1f);
+
+            Item item = Object.FindFirstObjectByType<Item>();
+            
+            Assert.AreNotSame(item, player.GetComponent<Inventory>().ActiveItem);
+            
+            yield return new WaitForSeconds(1f);
+
+            Assert.AreSame(item, player.GetComponent<Inventory>().ActiveItem);
         }
     }
 }
