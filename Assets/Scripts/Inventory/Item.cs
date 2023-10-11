@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using PlasticGui.WorkspaceWindow.Home;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
